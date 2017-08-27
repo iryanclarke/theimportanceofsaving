@@ -1,0 +1,16 @@
+# Ignore paths that contain user-generated content.
+wp-content/uploads/*
+
+# OS generated files #
+######################
+.DS_Store*
+Thumbs.db
+desktop.ini
+
+# Project Files #
+#################
+*.sublime-*
+*.psd
+*.scssc
+.sass-cache
+/node_modules
