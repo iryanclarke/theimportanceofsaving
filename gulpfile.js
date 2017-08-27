@@ -11,7 +11,7 @@ var browserSync = require('browser-sync').create();
 
 function output(processors, extname) {
 
-    return gulp.src('wp-content/themes/magenta/styles/main.scss')
+    return gulp.src('wp-content/themes/magenta/styles/bulma.scss')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
@@ -21,7 +21,7 @@ function output(processors, extname) {
             extname: extname
         }))
         .pipe(browserSync.stream())
-        .pipe(gulp.dest('wp-content/themes/magenta/'));
+        .pipe(gulp.dest('/'));
 
 }
 
@@ -67,8 +67,12 @@ gulp.task('dev', function () {
 gulp.task('watch', function () {
 
     // Static server
-    browserSync.init({});
+    browserSync.init({
+        server: {
+            baseDir: "./"
+        }
+    });
 
-	  gulp.watch('stylesheets/sass/*.scss', ['dev', 'production']);
+	 gulp.watch('stylesheets/*.scss', ['dev', 'production']);
 
 });
