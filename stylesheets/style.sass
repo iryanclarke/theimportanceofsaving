@@ -1,0 +1,23 @@
+// 1. Import the initial variables
+@import "sass/utilities/initial-variables"
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab:300,400,700')
+
+// 2. Set your own initial variables
+// Update blue
+$blue: #72D0EB
+// Add pink and its invert
+$pink: #ffb3b3
+// Add a serif family
+$family-sans-serif: "Roboto Slab", serif;
+
+// 3. Set the derived variables
+// Use the new pink as the primary color
+$primary: $pink
+// Use the new serif family
+$family-primary: $family-sans-serif
+
+// 4. Import the rest of Bulma
+@import "bulma"
+
+// 5. Import TIOS structure customizing
+@import "sass/tios/all"

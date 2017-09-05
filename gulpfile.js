@@ -11,7 +11,7 @@ var browserSync = require('browser-sync').create();
 
 function output(processors, extname) {
 
-    return gulp.src('wp-content/themes/magenta/styles/bulma.scss')
+    return gulp.src('stylesheets/style.sass')
         .pipe(sourcemaps.init())
         .pipe(sass().on('error', sass.logError))
         .pipe(postcss(processors))
@@ -21,7 +21,7 @@ function output(processors, extname) {
             extname: extname
         }))
         .pipe(browserSync.stream())
-        .pipe(gulp.dest('/'));
+        .pipe(gulp.dest('./'));
 
 }
 
@@ -41,14 +41,6 @@ gulp.task('production', function () {
 
     return output(processors, '.css');
 
-});
-
-gulp.task('scss-lint', function() {
-  return gulp.src('wp-content/themes/magenta/styles/**/*.scss')
-    .pipe(scsslint({
-        'config': 'lint.yml',
-        'maxBuffer': 800000
-    }));
 });
 
 // Development version, run production version when done.
@@ -73,6 +65,6 @@ gulp.task('watch', function () {
         }
     });
 
-	 gulp.watch('stylesheets/*.scss', ['dev', 'production']);
+	 gulp.watch('stylesheets/*.sass', ['dev', 'production']);
 
 });
