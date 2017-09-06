@@ -65,6 +65,7 @@ gulp.task('watch', function () {
         }
     });
 
-	 gulp.watch('stylesheets/*.sass', ['dev', 'production']);
+   gulp.watch('stylesheets/*.sass', ['dev', 'production']);
+	 gulp.watch('stylesheets/**/*.sass', ['dev', 'production']);
 
 });

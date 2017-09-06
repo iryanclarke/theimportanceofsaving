@@ -8,7 +8,7 @@
 </head>
 
 <body>
-  <div class="site">
+  <div class="site" id="tios">
     <nav class="navbar container">
       <div class="navbar-brand">
         <a class="navbar-item" href="#">
@@ -31,6 +31,91 @@
 
     <div class="content container">
 
+      <div class="columns">
+        <div class="column is-two-quarters">Graph Area d00d</div>
+        <div class="column">
+          <h2>A look at savings</h2>
+          <p>This is what 30 years of savings with {{ apm }} a month at {{ apr }}% per year looks like. Compound interest is the major factor when you invest in the long term: as you continue to invest, the interest you've made in previous years keeps gaining interest, in addition to your monthly deposits</p>
+          <a class="button is-primary">
+            Ok
+          </a>
+        </div>
+      </div>
+
+      <div class="columns">
+        <div class="column is-half">
+          <h3>Scenario #1</h3>
+
+          <div class="columns">
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Starting Amount</label>
+                <div class="control">
+                  <input v-model="apm" class="input" type="text" value="$10,000" placeholder="Text input">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Regular Saving Addition</label>
+                <div class="control">
+                  <input class="input" type="text" value="$400" placeholder="Text input">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Saving Addition Frequency</label>
+                <div class="control">
+                  <div class="select">
+                    <select>
+                      <option>Weekly</option>
+                      <option>Bi-Weekly</option>
+                      <option>Monthly</option>
+                      <option>Bi-Monthly</option>
+                      <option>Quarterly</option>
+                      <option>Bi-Quarterly</option>
+                      <option>Yearly</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="column is-half">
+              <div class="field">
+                <label class="label">Interest Rate</label>
+                <div class="control">
+                  <input v-model="apr" class="input" type="text" value="4%" placeholder="Text input">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Year-Over-Year Deposit Increase?</label>
+                <div class="control">
+                  <input class="input" type="text" value="$400" placeholder="Text input">
+                </div>
+              </div>
+              <div class="field">
+                <label class="label">Compounded?</label>
+                <div class="control">
+                  <div class="select">
+                    <select>
+                      <option>Monthly</option>
+                      <option>Bi-Monthly</option>
+                      <option>Quarterly</option>
+                      <option>Bi-Quarterly</option>
+                      <option>Yearly</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="column"></div>
+        <div class="column"></div>
+      </div>
+
     </div>
   </div>
+
+  <script src="https://unpkg.com/vue"></script>
+  <script src="scripts/app.js"></script>
+  
 </body>
