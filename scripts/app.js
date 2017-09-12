@@ -7,6 +7,6 @@ var app = new Vue({
 })
 
 // Define a new component called todo-item
-Vue.component('todo-item', {
+Vue.component('scenario', {
   template: '<li>This is a todo</li>'
 })
