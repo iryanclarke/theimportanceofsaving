@@ -1,24 +1,46 @@
-
+//
 // Defining new Vue application
+//
 var app = new Vue({
   el: '#tios',
   data: {
     additions: '400',
     additionFrequency: 'monthly',
     interest: '4',
+    time: '30',
     principal: '10000',
     compounded: 'monthly',
     increase: '100'
+  },
+  computed: {
+    totalValue: function() {
+      updateGraph(this.principal, this.interest, this.time, 12)
+      return roundCompoundInterest(this.principal, this.interest, this.time, 12)
+    }
+  },
+  methods: {
+    getValue: _.debounce(
+      function () {
+        return roundCompoundInterest(this.principal, this.interest, this.time, 12)
+      },
+      // This is the number of milliseconds we wait for the
+      // user to stop typing.
+      500
+    )
+  },
+  watch: {
+    principal: function(newData) {
+
+    }
   }
 });
 
-
-// Define a new component called todo-item
-Vue.component('scenario', {
-  template: '<li>This is a todo</li>'
-})
-
-// Compount Interest function
+//
+// @title   Basic Compound Interest
+// @desc    Uses the basic compound interest formula to calculate the value of money
+//          after certain interest rate and other parameters.
+// @usage   roundCompoundInterest(),
+//          doValueOfMoney()
 function doCompoundInterest(principal, interestRate, time, compoundFactor ) {
   var p = principal;
   var i = interestRate/100;
@@ -31,17 +53,26 @@ function doCompoundInterest(principal, interestRate, time, compoundFactor ) {
   var onePlus = 1 + fraction;
   var exponential = Math.pow(onePlus, exponent);
 
-  console.log('Exponent: ' + exponent);
-  console.log('Fraction: ' + fraction);
-  console.log('OnePlus: ' + onePlus);
-  console.log('Exponentialing: ' + exponential);
+  //console.log('Exponent: ' + exponent);
+  //console.log('Fraction: ' + fraction);
+  //console.log('OnePlus: ' + onePlus);
+  //console.log('Exponentialing: ' + exponential);
 
   // Plug in numbers to equation for final values
   var amount = p * (exponential);
   return amount;
 }
 
-// Compount Interest function
+//
+// Rounded Compound Interest
+//
+function roundCompoundInterest(principal, interestRate, time, compoundFactor ) {
+  return Math.round(doCompoundInterest(principal, interestRate, time, compoundFactor));
+}
+
+//
+// Total Money Value after adding in future values and addition on money
+//
 function doValueOfMoney(principal, interestRate, time, compoundFactor ) {
 
   // Get Principal money value
@@ -53,6 +84,132 @@ function doValueOfMoney(principal, interestRate, time, compoundFactor ) {
   var valueOfMoney = principalInterest + futureValue;
 }
 
+//
+// @title   Draw Graph
+// @desc    Draws the initial D3 graph
+//
+// @usage   $(document).ready();
+function drawGraph(data, margin, width, height) {
+  var x = d3.scaleLinear()
+      .domain([0, d3.max(data, function(d) { return d.year; })])
+      .range([0, width]);
+
+  var y = d3.scaleLinear()
+      .domain([0, d3.max(data, function(d) { return d.value; })])
+      .range([height, 0]);
+
+  var xAxis = d3.axisBottom()
+      .scale(x)
+
+  var yAxis = d3.axisLeft()
+      .scale(y)
+
+  var area = d3.area()
+      .x(function(d) { return x(d.year); })
+      .y0(height)
+      .y1(function(d) { return y(d.value); });
+
+  var svg = d3.select("svg#area")
+    .attr("width", '100%')
+    .attr("height", '100%')
+    .append("g")
+      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+  svg.append("path")
+      .data([data])
+      .attr("class", "area")
+      .attr("d", area);
+
+  svg.append("g")
+      .attr("class", "x axis")
+      .attr("transform", "translate(0," + height + ")")
+      .call(xAxis);
+
+  svg.append("g")
+      .attr("class", "y axis")
+      .call(yAxis);
+}
+
+
+//
+// @title   Update Graph
+// @desc    Updates the graph using new data from Vue.JS
+//
+// @usage   $(document).ready();
+function updateGraph(principal, interestRate, time, compoundFactor) {
+
+   // D3 Graph
+   var margin = {top: 20, right: 20, bottom: 40, left: 50},
+      container = $('#d3'),
+      width = container.width() - margin.left - margin.right,
+      height = container.height() - margin.bottom - margin.top
+
+    // Get new JSON data
+    var data = [];
+    var currentValue = principal;
+    for( var i = 0; i < 30; i++) {
+      var value = doCompoundInterest(currentValue, interestRate, 1, compoundFactor);
+
+      entry = {}
+      entry ["year"] = i;
+      entry ["value"] = value;
+
+      data.push(entry);
+      currentValue = value;
+    }
+
+    var x = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return d.year; })])
+        .range([0, width]);
+
+    var y = d3.scaleLinear()
+        .domain([0, d3.max(data, function(d) { return d.value; })])
+        .range([height, 0]);
+
+    var xAxis = d3.axisBottom()
+        .scale(x)
+
+    var yAxis = d3.axisLeft()
+        .scale(y)
+
+  	// Scale the range of the data again
+  	x.domain(d3.extent(data, function(d) { return d.year; }));
+    y.domain([0, d3.max(data, function(d) { return d.value; })]);
+
+    // Select the section we want to apply our changes to
+    var svg = d3.select("svg#area").transition();
+
+    var area = d3.area()
+        .x(function(d) { return x(d.year); })
+        .y0(height)
+        .y1(function(d) { return y(d.value); });
+
+   console.log(area);
+
+    // Make the changes
+    // var area = svg.select("g").select(".area").data(data);
+    // area.exit().remove();
+    // area.enter().append("path").attr("class", "area").attr("d", area);
+    // area.transition().duration(750);
+
+    // svg.select(".area")
+    //     .duration(750)
+    //     .attr("d", area);
+    var test = svg.select(".area");
+
+
+    svg.select(".area")
+        .duration(750)
+        .attr("d", area);
+    svg.select(".x.axis") // change the x axis
+        .duration(750)
+        .call(xAxis);
+    svg.select(".y.axis") // change the y axis
+        .duration(750)
+        .call(yAxis);
+
+
+}
 
 
 
@@ -76,46 +233,10 @@ $(document).ready( function(e)  {
 
   // D3 Graph
   var margin = {top: 20, right: 20, bottom: 40, left: 50},
-      width = 575 - margin.left - margin.right,
-      height = 350 - margin.top - margin.bottom;
+      container = $('#d3'),
+      width = container.width() - margin.left - margin.right,
+      height = container.height() - margin.bottom - margin.top
 
-  var x = d3.scaleLinear()
-      .domain([0, d3.max(newData, function(d) { return d.year; })])
-      .range([0, width]);
-
-  var y = d3.scaleLinear()
-      .domain([0, d3.max(newData, function(d) { return d.value; })])
-      .range([height, 0]);
-
-  var xAxis = d3.axisBottom()
-      .scale(x)
-
-  var yAxis = d3.axisLeft()
-      .scale(y)
-
-  var area = d3.area()
-      .x(function(d) { return x(d.year); })
-      .y0(height)
-      .y1(function(d) { return y(d.value); });
-
-  var svg = d3.select("svg#area")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
-    .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
-  svg.append("path")
-      .datum(newData)
-      .attr("class", "area")
-      .attr("d", area);
-
-  svg.append("g")
-      .attr("class", "x axis")
-      .attr("transform", "translate(0," + height + ")")
-      .call(xAxis);
-
-  svg.append("g")
-      .attr("class", "y axis")
-      .call(yAxis);
+  drawGraph(newData, margin, width, height);
 
 });

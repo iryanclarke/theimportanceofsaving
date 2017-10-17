@@ -32,12 +32,12 @@
     <div class="content container">
 
       <div class="columns">
-        <div class="column is-three-quarters">
+        <div id="d3" class="column is-three-quarters">
           <svg id="area" />
         </div>
         <div class="column is-centered">
           <h2>A look at savings</h2>
-          <p v-if="additions">This is what 30 years of savings with <strong>{{ additions }}$ a month</strong> at <strong>{{ interest }}% per year</strong> looks like. Compound interest is the major factor when you invest in the long term: as you continue to invest, the interest you've made in previous years keeps gaining interest, in addition to your monthly deposits</p>
+          <p v-if="additions">This is what 30 years of savings with <strong>{{ additions }}$ a month</strong> at <strong>{{ interest }}% per year</strong> looks like: <strong>${{ totalValue }}</strong>. Compound interest is the major factor when you invest in the long term: as you continue to invest, the interest you've made in previous years keeps gaining interest, in addition to your monthly deposits</p>
           <p v-else="additions">Whoa, looks like your data entered isn't right...</p>
           <a class="button is-primary">
             Ok
@@ -54,7 +54,7 @@
               <div class="field">
                 <label class="label">Starting Amount</label>
                 <div class="control">
-                  <input class="input" type="text" value="$10,000" placeholder="Text input">
+                  <input v-model="principal" class="input" type="text" value="$10,000" placeholder="Text input">
                 </div>
               </div>
               <div class="field">
@@ -118,6 +118,8 @@
     </div>
   </div>
 
+  <script src="https://cdn.jsdelivr.net/npm/axios@0.12.0/dist/axios.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/lodash@4.13.1/lodash.min.js"></script>
   <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
   <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="https://unpkg.com/vue"></script>
