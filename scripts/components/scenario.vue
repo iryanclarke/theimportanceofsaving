@@ -46,17 +46,5 @@
 
 <script>
     export default {
-        props: {
-            items: {
-                type: Array,
-                required: true
-            }
-        },
-
-        methods: {
-            handleItemClick(item, contentType) {
-                this.$emit('itemClicked', item, contentType);
-            }
-        }
     }
 </script>

@@ -33,12 +33,12 @@
 
       <div class="columns">
         <div class="column is-three-quarters">
-          <img src="images/graph.png" />
+          <svg id="area" />
         </div>
         <div class="column is-centered">
           <h2>A look at savings</h2>
-          <p v-if="apm">This is what 30 years of savings with <strong>{{ apm }}$ a month</strong> at <strong>{{ apr }}% per year</strong> looks like. Compound interest is the major factor when you invest in the long term: as you continue to invest, the interest you've made in previous years keeps gaining interest, in addition to your monthly deposits</p>
-          <p v-else="apm">Whoa, looks like your data entered isn't right...</p>
+          <p v-if="additions">This is what 30 years of savings with <strong>{{ additions }}$ a month</strong> at <strong>{{ interest }}% per year</strong> looks like. Compound interest is the major factor when you invest in the long term: as you continue to invest, the interest you've made in previous years keeps gaining interest, in addition to your monthly deposits</p>
+          <p v-else="additions">Whoa, looks like your data entered isn't right...</p>
           <a class="button is-primary">
             Ok
           </a>
@@ -60,7 +60,7 @@
               <div class="field">
                 <label class="label">Regular Saving Addition</label>
                 <div class="control">
-                  <input v-model="apm" class="input" type="text" value="$400" placeholder="Text input">
+                  <input v-model="additions" class="input" type="text" value="$400" placeholder="Text input">
                 </div>
               </div>
               <div class="field">
@@ -84,7 +84,7 @@
               <div class="field">
                 <label class="label">Interest Rate</label>
                 <div class="control">
-                  <input v-model="apr" class="input" type="text" value="4%" placeholder="Text input">
+                  <input v-model="interest" class="input" type="text" value="4%" placeholder="Text input">
                 </div>
               </div>
               <div class="field">
@@ -118,6 +118,8 @@
     </div>
   </div>
 
+  <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
   <script src="https://unpkg.com/vue"></script>
   <script src="scripts/app.js"></script>
 
