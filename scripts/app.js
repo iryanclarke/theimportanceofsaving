@@ -116,9 +116,13 @@ function drawGraph(data, margin, width, height) {
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
   svg.append("path")
-      .data([data])
+      .datum(data)
       .attr("class", "area")
-      .attr("d", area);
+      .attr("d", area)
+      .transition()
+      .duration( 1500 );
+
+  console.log(svg);
 
   svg.append("g")
       .attr("class", "x axis")
@@ -192,15 +196,19 @@ function updateGraph(principal, interestRate, time, compoundFactor) {
     // area.enter().append("path").attr("class", "area").attr("d", area);
     // area.transition().duration(750);
 
-    // svg.select(".area")
-    //     .duration(750)
-    //     .attr("d", area);
     var test = svg.select(".area");
 
+    console.log(test);
 
     svg.select(".area")
         .duration(750)
         .attr("d", area);
+
+
+
+    // svg.selectAll("path")
+    //     .duration(750)
+    //     .attr("d", area);
     svg.select(".x.axis") // change the x axis
         .duration(750)
         .call(xAxis);
