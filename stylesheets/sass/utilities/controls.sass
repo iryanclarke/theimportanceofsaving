@@ -1,15 +1,14 @@
-$control-radius: 0 !default
+$control-radius: $radius !default
 $control-radius-small: $radius-small !default
 
 $control-padding-vertical: calc(0.375em - 1px) !default
-$control-padding-horizontal: 0 !default
+$control-padding-horizontal: calc(0.625em - 1px) !default
 
 =control
   -moz-appearance: none
   -webkit-appearance: none
   align-items: center
-  border: none
-  border-bottom: 1px solid transparent
+  border: 1px solid transparent
   border-radius: $control-radius
   box-shadow: none
   display: inline-flex

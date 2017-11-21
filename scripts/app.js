@@ -1,6 +1,7 @@
 //
-// Defining new Vue application
-//
+// @title   Vue Application
+// @desc    Initializes the Vue application and binds it
+//          to the #tios page wrapper
 var app = new Vue({
   el: '#tios',
   data: {
@@ -63,15 +64,22 @@ function doCompoundInterest(principal, interestRate, time, compoundFactor ) {
   return amount;
 }
 
+
 //
-// Rounded Compound Interest
+// @title   Rounded Compound Interest
+// @desc    Rounds the result of the Compound Interest with passed in parameters
+// @usage   'getValue' method
 //
 function roundCompoundInterest(principal, interestRate, time, compoundFactor ) {
   return Math.round(doCompoundInterest(principal, interestRate, time, compoundFactor));
 }
 
+
 //
-// Total Money Value after adding in future values and addition on money
+// @title   Value of Money
+// @desc    Total Money Value after adding in future values and addition on money
+//
+// @usage   none
 //
 function doValueOfMoney(principal, interestRate, time, compoundFactor ) {
 
@@ -236,8 +244,6 @@ $(document).ready( function(e)  {
     newData.push(entry);
     currentValue = value;
   }
-
-
 
   // D3 Graph
   var margin = {top: 20, right: 20, bottom: 40, left: 50},
