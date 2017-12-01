@@ -47,9 +47,32 @@ function roundCompoundInterest(principal, interestRate, time, compoundFactor ) {
 // @title   Value of Money
 // @desc    Total Money Value after adding in future values and addition on money
 //
-// @usage   none
+// @usage   $(document).ready, 'getValue' method
 //
-function doValueOfMoney(principal, interestRate, time, compoundFactor ) {
+function doValueOfMoney(principal, additions, interestRate, time, compoundFactor ) {
+
+  if(!principal || !additions || !interestRate || !time || !compoundFactor)
+    return
+
+
+  // Ususally the time period is equal to 1, which is 1 year. (Because each data point is 1 year)
+  // So, we want to run the compound interest formula twelve times,
+  //    each time, we add in our savings addition BEFORE we run it (lets assume at start of month)
+  // If we start our calculation with 10000$, lets assume we add 400$ each month, which means we 
+  //    first run the compound calculator with 10400$, with a passed in time period of 1/12 = 0.08333
+  // From this returned value, we then add in 400$, and the run it again through our compounder
+
+  // INIT: Our current running total value
+  var currentMonthlyValue  = principal;
+
+  // Run 12 times
+  for( var i = 0; i < 12; i++) {
+    var notCompoundedYet = currentMonthlyValue + additions;
+
+    var currentMonthlyValue  = doCompoundInterest(currentValue, 5, 0.08333, 12);
+    console.log('Month Value is:' + )
+  }
+
 
   // Get Principal money value
   var principalInterest = doCompoundInterest(currentValue, 5, 1, 12);
@@ -205,9 +228,11 @@ $(document).ready( function(e)  {
 
   var newData = [];
   var currentValue = 10000;
+  var additions = 400;
   // Get data points for chart
   for( var i = 0; i < 30; i++) {
-    var value = doCompoundInterest(currentValue, 4, 1, 12);
+    //var value = doCompoundInterest(currentValue, 4, 1, 12);
+    var value = doCompoundInterest(currentValue, additions, 4, 1, 12);
 
     entry = {}
     entry ["year"] = i;
